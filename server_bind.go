@@ -14,7 +14,7 @@ func HandleBindRequest(req *ber.Packet, fns map[string]Binder, conn net.Conn) (r
 	}()
 
 	// we only support ldapv3
-	ldapVersion, ok := req.Children[0].Value.(uint64)
+	ldapVersion, ok := req.Children[0].Value.(int64)
 	if !ok {
 		return LDAPResultProtocolError
 	}
@@ -54,10 +54,9 @@ func HandleBindRequest(req *ber.Packet, fns map[string]Binder, conn net.Conn) (r
 		log.Print("SASL authentication is not supported")
 		return LDAPResultInappropriateAuthentication
 	}
-	return LDAPResultOperationsError
 }
 
-func encodeBindResponse(messageID uint64, ldapResultCode LDAPResultCode) *ber.Packet {
+func encodeBindResponse(messageID int64, ldapResultCode LDAPResultCode) *ber.Packet {
 	responsePacket := ber.Encode(ber.ClassUniversal, ber.TypeConstructed, ber.TagSequence, nil, "LDAP Response")
 	responsePacket.AppendChild(ber.NewInteger(ber.ClassUniversal, ber.TypePrimitive, ber.TagInteger, messageID, "Message ID"))
 

@@ -242,7 +242,7 @@ handler:
 			break
 		}
 		// check the message ID and ClassType
-		messageID, ok := packet.Children[0].Value.(uint64)
+		messageID, ok := packet.Children[0].Value.(int64)
 		if !ok {
 			log.Print("malformed messageID")
 			break
@@ -395,7 +395,7 @@ func routeFunc(dn string, funcNames []string) string {
 }
 
 //
-func encodeLDAPResponse(messageID uint64, responseType uint8, ldapResultCode LDAPResultCode, message string) *ber.Packet {
+func encodeLDAPResponse(messageID int64, responseType uint8, ldapResultCode LDAPResultCode, message string) *ber.Packet {
 	responsePacket := ber.Encode(ber.ClassUniversal, ber.TypeConstructed, ber.TagSequence, nil, "LDAP Response")
 	responsePacket.AppendChild(ber.NewInteger(ber.ClassUniversal, ber.TypePrimitive, ber.TagInteger, messageID, "Message ID"))
 	reponse := ber.Encode(ber.ClassApplication, ber.TypeConstructed, ber.Tag(responseType), nil, ApplicationMap[responseType])
