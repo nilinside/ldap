@@ -12,7 +12,7 @@ import (
 
 
 func ServerApplyFilter(f *ber.Packet, entry *Entry) (bool, LDAPResultCode) {
-	switch FilterMap[f.Tag] {
+	switch FilterMap[uint64(f.Tag)] {
 	default:
 		//log.Fatalf("Unknown LDAP filter code: %d", f.Tag)
 		return false, LDAPResultOperationsError
@@ -120,7 +120,7 @@ func GetFilterObjectClass(filter string) (string, error) {
 }
 func parseFilterObjectClass(f *ber.Packet) (string, error) {
 	objectClass := ""
-	switch FilterMap[f.Tag] {
+	switch FilterMap[uint64(f.Tag)] {
 	case "Equality Match":
 		if len(f.Children) != 2 {
 			return "", errors.New("Equality match must have only two children")
