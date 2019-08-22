@@ -96,7 +96,7 @@ func HandleModifyRequest(req *ber.Packet, boundDN string, fns map[string]Modifie
 			}
 			attr.Vals = append(attr.Vals, v)
 		}
-		op, ok := change.Children[0].Value.(uint64)
+		op, ok := change.Children[0].Value.(int64)
 		if !ok {
 			return LDAPResultProtocolError
 		}
