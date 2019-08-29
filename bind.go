@@ -116,7 +116,7 @@ func (l *Conn) Bind(username, password string) error {
 	_, err := l.SimpleBind(req)
 	// If auth succeeds, record the current dn
 	if err == nil {
-		l.CurrentDn = username
+		l.boundDn = username
 	}
 	return err
 }
